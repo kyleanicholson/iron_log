@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Update Workout{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <form method="post">
+    <label for="workout_name">Workout Name</label>
+    <input name="workout_name" id="workout_name" value="{{ workout['name'] }}" required>
+    <label for="date">Date</label>
+    <input type="date" name="date" id="date" value="{{ workout['date'] }}" required>
+
+    <h2>Exercises</h2>
+
+    {% for exercise in workout['exercises'] %}
+      <div class="exercise">
+        <h3>Exercise {{ loop.index }}</h3>
+        <label for="exercise_name{{ loop.index }}">Exercise Name</label>
+        <input name="exercise_name" id="exercise_name{{ loop.index }}" value="{{ exercise['name'] }}" required>
+        <label for="weight{{ loop.index }}">Weight</label>
+        <input name="weight" id="weight{{ loop.index }}" value="{{ exercise['sets'][0]['weight'] }}" required>
+        <label for="num_sets{{ loop.index }}">Number of Sets</label>
+        <input type="number" name="num_sets" id="num_sets{{ loop.index }}" value="{{ exercise['sets'][0]['num_sets'] }}" required>
+        <label for="repetitions{{ loop.index }}">Repetitions</label>
+        <input type="number" name="repetitions" id="repetitions{{ loop.index }}" value="{{ exercise['sets'][0]['repetitions'] }}" required>
+      </div>
+    {% endfor %}
+
+    <input type="submit" value="Save">
+  </form>
+{% endblock %}

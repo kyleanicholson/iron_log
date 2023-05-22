@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}New Workout{% endblock %}</h1>
+{% endblock %}
+
+
+{% block content %}
+  <h2>Create Workout</h2>
+  <form method="post">
+    <div>
+      <label for="workout_name">Workout Name:</label>
+      <input type="text" id="workout_name" name="workout_name" required>
+    </div>
+    <div>
+      <label for="date">Date:</label>
+      <input type="date" id="date" name="date" required>
+    </div>
+    <div id="exercises">
+      <h3>Exercises:</h3>
+      <div class="exercise">
+        <input type="text" name="exercise_name" placeholder="Exercise Name" required>
+        <input type="text" name="exercise_notes" placeholder="Exercise Notes">
+        <div class="sets">
+          <h4>Sets:</h4>
+          <div class="set">
+            <input type="text" name="weight" placeholder="Weight" required>
+            <input type="text" name="repetitions" placeholder="Repetitions" required>
+            <input type="text" name="rating" placeholder="Rating" required>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button type="button" id="add_exercise">Add Exercise</button>
+    <button type="submit">Save Workout</button>
+  </form>
+
+  <script>
+    // Script to dynamically add exercises and sets
+    document.getElementById("add_exercise").addEventListener("click", function() {
+      var exercisesDiv = document.getElementById("exercises");
+      var exerciseDiv = document.createElement("div");
+      exerciseDiv.classList.add("exercise");
+      exerciseDiv.innerHTML = `
+        <input type="text" name="exercise_name" placeholder="Exercise Name" required>
+        <input type="text" name="exercise_notes" placeholder="Exercise Notes">
+        <div class="sets">
+          <h4>Sets:</h4>
+          <div class="set">
+            <input type="text" name="weight" placeholder="Weight" required>
+            <input type="text" name="repetitions" placeholder="Repetitions" required>
+            <input type="text" name="rating" placeholder="Rating" required>
+          </div>
+        </div>
+      `;
+      exercisesDiv.appendChild(exerciseDiv);
+    });
+  </script>
+{% endblock %}

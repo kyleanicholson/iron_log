@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}My Workouts{% endblock %}</h1>
+  {% if g.user %}
+    <a class="action" href="{{ url_for('workout.create') }}">New</a>
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+  <!-- Display logged in user's workouts here, starting with the most recent -->
+  <!-- Workouts should show all of the exercises in the workout in table format -->
+  <!-- Each exercise should be displayed as a container which contains a line for each set -->
+  <!-- Each set is broken down by weight, number of repetitions, and RPE -->
+  <!-- Each workout should have an edit and a delete button -->
+
+  {% for workout in workouts %}
+    <div class="workout">
+      <h2>{{ workout['name'] }}</h2>
+      <p>{{ workout['date'] }}</p>
+      <table>
+        <thead>
+          <tr>
+            <th>Exercise</th>
+            <th>Weight</th>
+            <th>Repetitions</th>
+            <th>RPE</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for exercise in workout['exercises'] %}
+            {% for set in exercise['sets'] %}
+              <tr>
+                <td>{{ exercise['name'] }}</td>
+                <td>{{ set['weight'] }}</td>
+                <td>{{ set['repetitions'] }}</td>
+                <td>{{ set['rating'] }}</td>
+              </tr>
+            {% endfor %}
+          {% endfor %}
+        </tbody>
+      </table>
+      {% if g.user %}
+        <a class="action" href="{{ url_for('workout.edit', workout_id=workout['id']) }}">Edit</a>
+        <form method="post" action="{{ url_for('workout.delete', workout_id=workout['id']) }}">
+          <input type="submit" value="Delete">
+        </form>
+      {% endif %}
+    </div>
+  {% endfor %}
+{% endblock %}
